@@ -9,6 +9,11 @@ type PageSnapshot = {
   jsonLd: string[];
 };
 
+async function pauseForDemo(page: Page): Promise<void> {
+  // Les pauses ne s'appliquent qu'a la video : la suite de tests reste rapide au quotidien.
+  if (process.env['REVIEWFLOW_DEMO_VIDEO'] === '1') await page.waitForTimeout(3_000);
+}
+
 async function readDownload(download: Download): Promise<string> {
   const stream = await download.createReadStream();
   const chunks: Buffer[] = [];
@@ -68,6 +73,7 @@ test('capture, corrige, structure, exporte et supprime une fiche', async ({ cont
   await expect(popup.locator('#product-price')).toHaveValue('149.9');
   await expect(popup.locator('#product-currency')).toHaveValue('EUR');
   await expect(popup.locator('#selected-text')).toContainText('mode silencieux');
+  await pauseForDemo(popup);
 
   await popup.locator('#product-name').fill('');
   await popup.getByRole('button', { name: 'Sauvegarder la fiche' }).click();
@@ -82,17 +88,20 @@ test('capture, corrige, structure, exporte et supprime une fiche', async ({ cont
   await popup.locator('#research-cons').fill('Autonomie à confirmer');
   await popup.locator('#research-criteria').fill('Tester autonomie\nTester autonomie');
   await popup.locator('#research-tags').fill('aspirateur\nmaison');
+  await pauseForDemo(popup);
   await popup.getByRole('button', { name: 'Sauvegarder la fiche' }).click();
 
   await expect(popup.getByRole('status')).toHaveText('Fiche sauvegardee localement.');
   await expect(popup.locator('#draft-count')).toHaveText('1');
   await expect(popup.getByRole('button', { name: 'Structurer la fiche' })).toBeEnabled();
+  await pauseForDemo(popup);
 
   await popup.getByRole('button', { name: 'Structurer la fiche' }).click();
   await expect(popup.getByRole('status')).toHaveText('Fiche structuree avec succes en mode demo.');
   await expect(popup.locator('#generation-mode')).toHaveText('demo');
   await expect(popup.locator('#generated-summary')).toContainText('AeroClean Nova X1');
   await expect(popup.locator('#generated-checklist li')).toHaveText(['Tester autonomie']);
+  await pauseForDemo(popup);
 
   const [jsonDownload] = await Promise.all([
     popup.waitForEvent('download'),
@@ -117,6 +126,7 @@ test('capture, corrige, structure, exporte et supprime une fiche', async ({ cont
   const csv = await readDownload(csvDownload);
   expect(csv.startsWith('\uFEFFid;nom;categorie;prix;devise;')).toBe(true);
   expect(csv).toContain('AeroClean Nova X1');
+  await pauseForDemo(popup);
 
   popup.once('dialog', (dialog) => dialog.accept());
   await popup.getByRole('button', { name: 'Supprimer AeroClean Nova X1' }).click();

@@ -10,6 +10,7 @@
   "scripts": {
     "build": "npm run build --workspaces --if-present",
     "demo": "node scripts/serve-demo.mjs",
+    "demo:video": "set REVIEWFLOW_DEMO_VIDEO=1&& playwright test --config playwright.demo.config.ts",
     "test": "npm run test --workspaces --if-present",
     "typecheck:e2e": "tsc --project tsconfig.e2e.json --noEmit",
     "test:e2e": "npm run build && npm run typecheck:e2e && playwright test",

@@ -61,6 +61,8 @@ Cette approche montre comment accélérer le développement avec l'IA tout en co
 
 _Visuel de présentation créé à partir d'une capture réelle du parcours : il met en valeur l'interface sans modifier les fonctionnalités démontrées._
 
+La démonstration automatisée du parcours complet est disponible en [vidéo WebM (environ 20 secondes)](docs/video/reviewflow-demo.webm).
+
 ### Le parcours en images
 
 **1. Capturer les informations d'une page produit**
@@ -276,6 +278,12 @@ Pour observer le scénario dans une fenêtre :
 
 ```cmd
 npm run test:e2e:headed
+```
+
+Pour régénérer la vidéo de démonstration à partir de ce même scénario :
+
+```cmd
+npm run demo:video
 ```
 
 ## Limites du MVP
