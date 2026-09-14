@@ -21,7 +21,7 @@ Une tache est terminee lorsque :
 
 Estimation : 1 h
 
-Statut : en cours
+Statut : termine
 
 - creer les espaces `extension` et `api` ;
 - configurer TypeScript en mode strict ;
@@ -195,7 +195,7 @@ Estimation : 1 h
 Statut : termine
 
 - prendre les captures essentielles (`termine`) ;
-- enregistrer une demonstration de 60 a 90 secondes (version courte de 20 secondes disponible) ;
+- enregistrer une demonstration courte de 20 secondes (`termine`) ;
 - montrer capture, correction, structuration et export ;
 - verifier qu'aucune cle ou donnee privee n'apparait.
 
