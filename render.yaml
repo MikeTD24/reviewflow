@@ -1,0 +1,10 @@
+# Blueprint Render : l'API est construite depuis le Dockerfile du monorepo.
+services:
+  - type: web
+    name: reviewflow-api-miketd24
+    runtime: docker
+    plan: free
+    region: frankfurt
+    dockerfilePath: ./api/Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health

@@ -151,6 +151,17 @@ docker build --file api\Dockerfile --tag reviewflow-api .
 docker run --rm --publish 3000:3000 reviewflow-api
 ```
 
+### Déployer l'API avec Render
+
+Le dépôt contient un Blueprint [`render.yaml`](render.yaml) prêt pour Render. Il crée uniquement un service web Docker gratuit, sans base de données et avec un contrôle de santé sur `/api/health`.
+
+1. Dans Render, choisir **New > Blueprint**.
+2. Connecter le dépôt `MikeTD24/reviewflow`, puis sélectionner la branche `main`.
+3. Vérifier le service `reviewflow-api-miketd24`, région **Frankfurt**, plan **Free**, puis cliquer sur **Deploy Blueprint**.
+4. Une fois le déploiement terminé, ouvrir `https://<votre-service>.onrender.com/api/health` : la réponse doit être `{ "status": "ok" }`.
+
+Le plan gratuit peut se mettre en veille lorsqu'il est inactif : le premier appel suivant peut donc prendre quelques secondes. L'URL Render sera ajoutée aux permissions de l'extension après la création effective du service, afin de ne l'autoriser que précisément.
+
 ## Parcours utilisateur
 
 1. Ouvrir une page produit et sélectionner éventuellement un passage intéressant.
@@ -209,7 +220,7 @@ ReviewFlow conserve au maximum les 50 fiches les plus récemment modifiées dans
 | `activeTab`               | Accéder uniquement à l'onglet explicitement ciblé par l'utilisateur |
 | `scripting`               | Exécuter l'extracteur lors de la capture                            |
 | `storage`                 | Sauvegarder les brouillons dans le navigateur                       |
-| `http://localhost:3000/*` | Appeler uniquement l'API locale du MVP                              |
+| `http://localhost:3000/*` | Appeler l'API locale pendant le développement                       |
 
 Les exports sont générés dans le navigateur à partir d'un `Blob`, sans permission de téléchargement supplémentaire. L'export CSV est encodé en UTF-8 avec BOM, utilise le séparateur `;` et protège les cellules contenant des retours à la ligne, guillemets ou séparateurs ; il s'ouvre ainsi proprement dans les tableurs francophones.
 
@@ -248,13 +259,13 @@ npm run test:e2e:headed
 - l'extraction dépend des métadonnées publiées par chaque site ;
 - il n'existe pas encore de synchronisation entre navigateurs ou appareils ;
 - les API Chrome du parcours automatisé utilisent un adaptateur ; le chargement de l'extension non empaquetée reste testé manuellement ;
-- aucun déploiement public n'est encore fourni.
+- une API hébergée sur le plan gratuit Render peut redémarrer après une période d'inactivité.
 
 ## Prochaines évolutions
 
 - [x] automatiser le parcours navigateur de bout en bout ;
 - [x] dockeriser l'API ;
-- [ ] déployer l'API ;
+- [x] préparer le déploiement Render de l'API ;
 - [ ] connecter un fournisseur LLM avec un mode dégradé sûr ;
 - [x] ajouter l'export CSV ;
 - [ ] enrichir l'accessibilité et la démonstration visuelle ;
