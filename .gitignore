@@ -4,6 +4,7 @@ coverage/
 playwright-report/
 test-results/
 docs/video/recordings/
+release/
 .env
 .env.*
 !.env.example

@@ -127,6 +127,10 @@ npm run build
 4. Sélectionner le dossier `extension\dist`.
 5. Épingler ReviewFlow à la barre d'outils si nécessaire.
 
+### Télécharger l'archive installable
+
+La [release v0.1.0](https://github.com/MikeTD24/reviewflow/releases/tag/v0.1.0) contient l'archive `reviewflow-extension-v0.1.0.zip`. Décompresser l'archive, puis sélectionner le dossier obtenu à l'étape 4 ci-dessus.
+
 Après une modification du code, exécuter de nouveau `npm run build`, puis recharger l'extension depuis la page des extensions.
 
 ### Démarrer l'API
