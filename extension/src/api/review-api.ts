@@ -7,6 +7,8 @@ export type GeneratedReview = {
   generatedAt: string;
 };
 
+const API_URLS = ['http://localhost:3000', 'https://reviewflow-api-miketd24.onrender.com'] as const;
+
 function isGeneratedReview(value: unknown): value is GeneratedReview {
   if (typeof value !== 'object' || value === null) return false;
   const result = value as Partial<GeneratedReview>;
@@ -22,26 +24,41 @@ function isGeneratedReview(value: unknown): value is GeneratedReview {
 export async function structureReview(
   draft: ReviewDraft,
   fetchImplementation: typeof fetch = fetch,
-  apiUrl = 'http://localhost:3000',
+  apiUrls: readonly string[] = API_URLS,
 ): Promise<GeneratedReview> {
-  const response = await fetchImplementation(`${apiUrl}/api/reviews/structure`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      source: draft.source,
-      product: draft.product,
-      research: draft.research,
-    }),
-  });
+  let lastNetworkError: unknown;
 
-  if (!response.ok) {
-    throw new Error(`API ReviewFlow indisponible (${response.status}).`);
+  for (const apiUrl of apiUrls) {
+    try {
+      const response = await fetchImplementation(`${apiUrl}/api/reviews/structure`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          source: draft.source,
+          product: draft.product,
+          research: draft.research,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`API ReviewFlow indisponible (${response.status}).`);
+      }
+
+      // Une reponse HTTP 200 reste une donnee externe : sa forme est verifiee avant utilisation.
+      const result: unknown = await response.json();
+      if (!isGeneratedReview(result)) {
+        throw new Error("La reponse de l'API ReviewFlow est invalide.");
+      }
+      return result;
+    } catch (error) {
+      // Seule une panne reseau justifie le repli : une reponse HTTP invalide doit rester visible.
+      if (error instanceof TypeError) {
+        lastNetworkError = error;
+        continue;
+      }
+      throw error;
+    }
   }
 
-  // Une reponse HTTP 200 reste une donnee externe : sa forme est verifiee avant utilisation.
-  const result: unknown = await response.json();
-  if (!isGeneratedReview(result)) {
-    throw new Error("La reponse de l'API ReviewFlow est invalide.");
-  }
-  return result;
+  throw lastNetworkError ?? new Error("L'API ReviewFlow est indisponible.");
 }

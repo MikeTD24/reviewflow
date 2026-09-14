@@ -32,7 +32,7 @@ flowchart LR
     STORAGE --> EXPORT[Exports JSON / Markdown / CSV]
 ```
 
-L'extension ne transmet une fiche à l'API que lorsque l'utilisateur demande sa structuration. Les brouillons restent dans le stockage local du navigateur et aucune base de données ni aucun compte utilisateur n'est utilisé.
+L'extension ne transmet une fiche à l'API que lorsque l'utilisateur demande sa structuration. Elle utilise d'abord l'API locale pour le développement, puis l'API Render si le serveur local est indisponible. Les brouillons restent dans le stockage local du navigateur et aucune base de données ni aucun compte utilisateur n'est utilisé.
 
 ## Stack technique
 
@@ -158,9 +158,9 @@ Le dépôt contient un Blueprint [`render.yaml`](render.yaml) prêt pour Render.
 1. Dans Render, choisir **New > Blueprint**.
 2. Connecter le dépôt `MikeTD24/reviewflow`, puis sélectionner la branche `main`.
 3. Vérifier le service `reviewflow-api-miketd24`, région **Frankfurt**, plan **Free**, puis cliquer sur **Deploy Blueprint**.
-4. Une fois le déploiement terminé, ouvrir `https://<votre-service>.onrender.com/api/health` : la réponse doit être `{ "status": "ok" }`.
+4. Une fois le déploiement terminé, ouvrir `https://reviewflow-api-miketd24.onrender.com/api/health` : la réponse doit être `{ "status": "ok" }`.
 
-Le plan gratuit peut se mettre en veille lorsqu'il est inactif : le premier appel suivant peut donc prendre quelques secondes. L'URL Render sera ajoutée aux permissions de l'extension après la création effective du service, afin de ne l'autoriser que précisément.
+Le plan gratuit peut se mettre en veille lorsqu'il est inactif : le premier appel suivant peut donc prendre quelques secondes. L'extension est autorisée à appeler précisément l'URL Render déployée. Elle garde `localhost` prioritaire pour le développement et utilise Render lorsque le serveur local est inaccessible.
 
 ## Parcours utilisateur
 
@@ -215,12 +215,13 @@ Les requêtes JSON sont limitées à `100 ko`. Zod valide les données reçues e
 
 ReviewFlow conserve au maximum les 50 fiches les plus récemment modifiées dans `chrome.storage.local`. Le MVP n'utilise ni compte, ni cookie applicatif, ni télémétrie, ni base de données distante.
 
-| Permission                | Utilisation                                                         |
-| ------------------------- | ------------------------------------------------------------------- |
-| `activeTab`               | Accéder uniquement à l'onglet explicitement ciblé par l'utilisateur |
-| `scripting`               | Exécuter l'extracteur lors de la capture                            |
-| `storage`                 | Sauvegarder les brouillons dans le navigateur                       |
-| `http://localhost:3000/*` | Appeler l'API locale pendant le développement                       |
+| Permission                                       | Utilisation                                                         |
+| ------------------------------------------------ | ------------------------------------------------------------------- |
+| `activeTab`                                      | Accéder uniquement à l'onglet explicitement ciblé par l'utilisateur |
+| `scripting`                                      | Exécuter l'extracteur lors de la capture                            |
+| `storage`                                        | Sauvegarder les brouillons dans le navigateur                       |
+| `http://localhost:3000/*`                        | Appeler l'API locale pendant le développement                       |
+| `https://reviewflow-api-miketd24.onrender.com/*` | Appeler l'API Render de production                                  |
 
 Les exports sont générés dans le navigateur à partir d'un `Blob`, sans permission de téléchargement supplémentaire. L'export CSV est encodé en UTF-8 avec BOM, utilise le séparateur `;` et protège les cellules contenant des retours à la ligne, guillemets ou séparateurs ; il s'ouvre ainsi proprement dans les tableurs francophones.
 
@@ -234,7 +235,7 @@ npm run test:e2e
 npm run build
 ```
 
-La suite contient 29 tests unitaires et d'intégration : 21 pour l'extension et 8 pour l'API. Elle couvre notamment l'extraction, la validation du formulaire, le stockage, les exports, le client API, CORS, la validation serveur et la structuration démo.
+La suite contient 30 tests unitaires et d'intégration : 22 pour l'extension et 8 pour l'API. Elle couvre notamment l'extraction, la validation du formulaire, le stockage, les exports, le client API, son repli vers Render, CORS, la validation serveur et la structuration démo.
 
 Le parcours principal est également couvert par Playwright dans un véritable navigateur Chromium. Il traverse la page produit, le popup compilé et l'API réelle, puis vérifie capture, erreur de formulaire, persistance, structuration, exports et suppression. Les API propres à l'hôte d'extension sont remplacées par un adaptateur en mémoire ; l'installation réelle reste validée manuellement dans Chrome et Edge.
 
@@ -259,13 +260,13 @@ npm run test:e2e:headed
 - l'extraction dépend des métadonnées publiées par chaque site ;
 - il n'existe pas encore de synchronisation entre navigateurs ou appareils ;
 - les API Chrome du parcours automatisé utilisent un adaptateur ; le chargement de l'extension non empaquetée reste testé manuellement ;
-- une API hébergée sur le plan gratuit Render peut redémarrer après une période d'inactivité.
+- une API hébergée sur le plan gratuit Render peut redémarrer après une période d'inactivité et nécessiter jusqu'à environ une minute avant la première réponse.
 
 ## Prochaines évolutions
 
 - [x] automatiser le parcours navigateur de bout en bout ;
 - [x] dockeriser l'API ;
-- [x] préparer le déploiement Render de l'API ;
+- [x] déployer l'API sur Render ;
 - [ ] connecter un fournisseur LLM avec un mode dégradé sûr ;
 - [x] ajouter l'export CSV ;
 - [ ] enrichir l'accessibilité et la démonstration visuelle ;

@@ -200,7 +200,7 @@ Estimation : 1 h
 ## P2 - Bonus bloques jusqu'a la fin du MVP
 
 - RF-101 : connecter un fournisseur LLM reel ;
-- RF-102 : deployer l'API ;
+- RF-102 : deployer l'API (`termine`) ;
 - RF-103 : dockeriser l'API (`termine`) ;
 - RF-104 : ajouter un export CSV (`termine`) ;
 - RF-105 : envoyer un webhook ;

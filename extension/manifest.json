@@ -8,5 +8,5 @@
     "default_title": "Ouvrir ReviewFlow",
     "default_popup": "popup/popup.html"
   },
-  "host_permissions": ["http://localhost:3000/*"]
+  "host_permissions": ["http://localhost:3000/*", "https://reviewflow-api-miketd24.onrender.com/*"]
 }

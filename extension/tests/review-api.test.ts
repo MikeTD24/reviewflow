@@ -47,6 +47,27 @@ describe('structureReview', () => {
     expect(draft).toEqual(original);
   });
 
+  it('bascule sur Render lorsque le serveur local est inaccessible', async () => {
+    const fetchMock = vi
+      .fn<typeof fetch>()
+      .mockRejectedValueOnce(new TypeError('Failed to fetch'))
+      .mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({
+            summary: 'Produit : Nova.',
+            checklist: [],
+            mode: 'demo',
+            generatedAt: '2026-09-14T20:00:00.000Z',
+          }),
+          { status: 200 },
+        ),
+      );
+
+    await expect(structureReview(draft, fetchMock)).resolves.toMatchObject({ mode: 'demo' });
+    expect(fetchMock.mock.calls[0]?.[0]).toContain('http://localhost:3000');
+    expect(fetchMock.mock.calls[1]?.[0]).toContain('https://reviewflow-api-miketd24.onrender.com');
+  });
+
   it('rejette une reponse API incomplete', async () => {
     const fetchMock = vi
       .fn<typeof fetch>()
