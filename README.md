@@ -55,6 +55,30 @@ ReviewFlow a été construit dans une démarche de développement assisté par I
 
 Cette approche montre comment accélérer le développement avec l'IA tout en conservant la compréhension, la responsabilité et la maîtrise technique du projet.
 
+## Aperçu visuel
+
+![ReviewFlow structure une fiche produit et propose les exports JSON, Markdown et CSV](docs/images/hero-reviewflow.png)
+
+_Visuel de présentation créé à partir d'une capture réelle du parcours : il met en valeur l'interface sans modifier les fonctionnalités démontrées._
+
+### Le parcours en images
+
+**1. Capturer les informations d'une page produit**
+
+![Capture des informations d'un ordinateur portable depuis une page produit MediaMarkt](docs/images/capture-produit1.png)
+
+**2. Corriger et enrichir la fiche éditoriale**
+
+![Formulaire ReviewFlow pour corriger les données produit](docs/images/edition-fiche.png)
+
+**3. Structurer puis exporter la fiche**
+
+![Fiche structurée ReviewFlow avec les exports JSON, Markdown et CSV](docs/images/fiche-structuree-exports.png)
+
+**4. Reprendre une fiche enregistrée localement**
+
+![Liste des fiches récentes dans ReviewFlow](docs/images/fiches-recentes.png)
+
 ## Structure du dépôt
 
 ```text
@@ -74,6 +98,7 @@ reviewflow/
 |   `-- tests/
 |-- demo/                    # Page produit fictive reproductible
 |-- docs/                    # Spécifications, backlog et stabilisation
+|   `-- images/              # Captures du parcours de démonstration
 `-- scripts/                 # Serveur statique de démonstration
 ```
 

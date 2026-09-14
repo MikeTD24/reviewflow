@@ -192,7 +192,9 @@ Statut : termine
 
 Estimation : 1 h
 
-- prendre les captures essentielles ;
+Statut : en cours
+
+- prendre les captures essentielles (`termine`) ;
 - enregistrer une demonstration de 60 a 90 secondes ;
 - montrer capture, correction, structuration et export ;
 - verifier qu'aucune cle ou donnee privee n'apparait.
