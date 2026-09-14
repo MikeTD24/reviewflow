@@ -21,6 +21,8 @@ Une tache est terminee lorsque :
 
 Estimation : 1 h
 
+Statut : termine
+
 - creer les espaces `extension` et `api` ;
 - configurer TypeScript en mode strict ;
 - ajouter les scripts communs `dev`, `build`, `test`, `lint` et `format` ;
@@ -34,6 +36,8 @@ Critere d'acceptation : les commandes de verification peuvent etre lancees depui
 
 Estimation : 1 h
 
+Statut : termine
+
 - creer un manifeste V3 ;
 - declarer uniquement `activeTab`, `scripting` et `storage` ;
 - afficher un popup de 360 px ;
@@ -45,6 +49,8 @@ Critere d'acceptation : Chrome et Edge chargent l'extension non empaquetee sans 
 
 Estimation : 1 h
 
+Statut : termine
+
 - lire le titre, l'URL, le domaine et la description ;
 - recuperer le texte selectionne ;
 - retourner un objet type et serialisable ;
@@ -55,6 +61,8 @@ Tests : repli vers le titre de la page et absence de selection.
 ### RF-004 - Extraire un produit JSON-LD
 
 Estimation : 1 h 30
+
+Statut : termine
 
 - detecter les scripts `application/ld+json` ;
 - gerer un objet, un tableau et `@graph` ;
@@ -68,6 +76,8 @@ Tests : JSON-LD valide, tableau, `@graph`, JSON invalide et prix absent.
 
 Estimation : 1 h 30
 
+Statut : termine
+
 - afficher le formulaire de la fiche ;
 - rendre les donnees extraites modifiables ;
 - gerer categorie, notes, avantages, inconvenients, criteres et tags ;
@@ -78,6 +88,8 @@ Critere d'acceptation : une extraction imparfaite peut etre corrigee sans quitte
 ### RF-006 - Sauvegarder localement
 
 Estimation : 1 h 30
+
+Statut : termine
 
 - definir `ReviewDraft` et la couche de stockage ;
 - creer un identifiant et les dates ISO ;
@@ -91,6 +103,8 @@ Tests : sauvegarde, relecture, mise a jour et suppression.
 
 Estimation : 1 h 30
 
+Statut : termine
+
 - creer l'application Express ;
 - ajouter `GET /api/health` ;
 - definir le schema Zod de la requete ;
@@ -103,6 +117,8 @@ Tests : health, requete valide, requete invalide et corps trop volumineux.
 
 Estimation : 1 h
 
+Statut : termine
+
 - generer un resume deterministe ;
 - generer une checklist depuis les criteres fournis ;
 - ne jamais convertir une donnee absente en fait ;
@@ -113,6 +129,8 @@ Tests : resultat stable et absence d'invention.
 ### RF-009 - Connecter l'extension a l'API
 
 Estimation : 1 h
+
+Statut : termine
 
 - appeler explicitement l'API au clic ;
 - afficher chargement, succes et erreur ;
@@ -125,6 +143,8 @@ Critere d'acceptation : une panne API ne supprime ni ne corrompt le brouillon lo
 
 Estimation : 1 h
 
+Statut : termine
+
 - produire un JSON valide ;
 - produire un Markdown lisible ;
 - inclure source, date et mode ;
@@ -136,6 +156,8 @@ Tests : caracteres speciaux, champs facultatifs et listes vides.
 
 Estimation : 30 min
 
+Statut : termine
+
 - utiliser un produit et une marque fictifs ;
 - inclure des metadonnees et un JSON-LD `Product` ;
 - inclure un passage selectionnable ;
@@ -144,6 +166,8 @@ Estimation : 30 min
 ### RF-012 - Stabiliser le MVP
 
 Estimation : 1 h
+
+Statut : termine
 
 - executer lint, tests et builds ;
 - tester le parcours complet dans Chrome et Edge ;
@@ -155,6 +179,8 @@ Estimation : 1 h
 ### RF-013 - Finaliser le README
 
 Estimation : 1 h
+
+Statut : termine
 
 - expliquer probleme, solution et limites ;
 - ajouter le diagramme d'architecture ;
@@ -175,12 +201,48 @@ Estimation : 1 h
 
 - RF-101 : connecter un fournisseur LLM reel ;
 - RF-102 : deployer l'API ;
-- RF-103 : dockeriser l'API ;
-- RF-104 : ajouter un export CSV ;
+- RF-103 : dockeriser l'API (`termine`) ;
+- RF-104 : ajouter un export CSV (`termine`) ;
 - RF-105 : envoyer un webhook ;
-- RF-106 : ajouter des tests end-to-end ;
+- RF-106 : ajouter des tests end-to-end (`termine`) ;
 - RF-107 : creer un tableau de bord Angular ;
 - RF-108 : proposer une interface anglaise.
+
+### RF-103 - Dockeriser l'API
+
+Estimation : 1 h
+
+Statut : termine
+
+- construire l'API dans une image multi-stage reproductible ;
+- ne conserver que les dependances de production dans l'image finale ;
+- executer le processus Node.js avec un utilisateur non privilegie ;
+- exposer le port configurable et verifier `/api/health` ;
+- fournir une commande Docker Compose simple et documentee.
+
+### RF-104 - Ajouter un export CSV
+
+Estimation : 1 h
+
+Statut : termine
+
+- exporter une fiche sur une ligne avec des colonnes editoriales stables ;
+- encoder le fichier en UTF-8 avec BOM pour les tableurs courants ;
+- proteger les separateurs, guillemets et retours a la ligne dans les cellules ;
+- ajouter le bouton au popup et le parcours end-to-end correspondant.
+
+### RF-106 - Ajouter des tests end-to-end
+
+Estimation : 2 h
+
+Statut : termine
+
+- automatiser le parcours principal dans un navigateur Chromium reel ;
+- demarrer la page demo, le popup compile et l'API pendant le test ;
+- verifier capture, validation, sauvegarde et structuration ;
+- verifier les exports JSON et Markdown ;
+- verifier la suppression avec confirmation ;
+- conserver une trace et une capture seulement en cas d'echec.
 
 ## Plan par seances
 

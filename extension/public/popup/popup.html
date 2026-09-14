@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>ReviewFlow</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <main class="popup-shell" aria-labelledby="popup-title">
+      <header class="popup-header">
+        <p class="eyebrow">Assistant de recherche produit</p>
+        <h1 id="popup-title">ReviewFlow</h1>
+        <p class="intro">
+          Capturez les informations utiles de la page active, puis enrichissez votre fiche.
+        </p>
+      </header>
+      <section id="empty-state" class="empty-state" aria-labelledby="empty-state-title">
+        <div class="empty-state__icon" aria-hidden="true">RF</div>
+        <h2 id="empty-state-title">Aucune fiche en cours</h2>
+        <p>Ouvrez une page produit pour commencer une nouvelle recherche.</p>
+      </section>
+      <section
+        id="capture-result"
+        class="capture-result"
+        aria-labelledby="capture-result-title"
+        hidden
+      >
+        <h2 id="capture-result-title">Informations capturees</h2>
+        <dl class="capture-list">
+          <div>
+            <dt>Titre</dt>
+            <dd id="page-title"></dd>
+          </div>
+          <div>
+            <dt>URL</dt>
+            <dd><a id="page-url" target="_blank" rel="noreferrer"></a></dd>
+          </div>
+          <div>
+            <dt>Domaine</dt>
+            <dd id="page-domain"></dd>
+          </div>
+          <div>
+            <dt>Description</dt>
+            <dd id="page-description"></dd>
+          </div>
+          <div>
+            <dt>Texte selectionne</dt>
+            <dd id="selected-text"></dd>
+          </div>
+        </dl>
+        <form id="review-form" class="review-form" novalidate>
+          <fieldset>
+            <legend>Produit</legend>
+            <label for="product-name">Nom *</label><input id="product-name" name="name" required />
+            <p id="product-name-error" class="field-error" aria-live="polite"></p>
+            <label for="product-description">Description</label
+            ><textarea id="product-description" name="description" rows="3"></textarea
+            ><label for="product-category">Categorie</label
+            ><input id="product-category" name="category" />
+            <div class="form-row">
+              <div>
+                <label for="product-price">Prix</label
+                ><input id="product-price" name="price" inputmode="decimal" />
+                <p id="product-price-error" class="field-error" aria-live="polite"></p>
+              </div>
+              <div>
+                <label for="product-currency">Devise</label
+                ><input id="product-currency" name="currency" maxlength="3" placeholder="EUR" />
+                <p id="product-currency-error" class="field-error" aria-live="polite"></p>
+              </div>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Recherche editoriale</legend>
+            <label for="research-notes">Notes libres</label
+            ><textarea id="research-notes" name="notes" rows="4"></textarea
+            ><label for="research-pros">Points positifs</label
+            ><textarea
+              id="research-pros"
+              name="pros"
+              rows="3"
+              placeholder="Un element par ligne"
+            ></textarea
+            ><label for="research-cons">Points negatifs</label
+            ><textarea
+              id="research-cons"
+              name="cons"
+              rows="3"
+              placeholder="Un element par ligne"
+            ></textarea
+            ><label for="research-criteria">Criteres a verifier</label
+            ><textarea
+              id="research-criteria"
+              name="testCriteria"
+              rows="3"
+              placeholder="Un element par ligne"
+            ></textarea
+            ><label for="research-tags">Tags</label
+            ><textarea
+              id="research-tags"
+              name="tags"
+              rows="2"
+              placeholder="Un tag par ligne"
+            ></textarea>
+          </fieldset>
+          <button class="secondary-button" type="submit">Sauvegarder la fiche</button>
+        </form>
+        <button id="structure-button" class="primary-button" type="button" disabled>
+          Structurer la fiche
+        </button>
+        <section
+          id="generated-result"
+          class="generated-result"
+          aria-labelledby="generated-title"
+          hidden
+        >
+          <div class="section-heading">
+            <h2 id="generated-title">Fiche structuree</h2>
+            <span id="generation-mode"></span>
+          </div>
+          <p id="generated-summary"></p>
+          <ul id="generated-checklist"></ul>
+          <div class="export-actions">
+            <button type="button" data-export="json">Exporter JSON</button
+            ><button type="button" data-export="markdown">Exporter Markdown</button
+            ><button type="button" data-export="csv">Exporter CSV</button>
+          </div>
+        </section>
+      </section>
+      <button id="capture-button" class="primary-button" type="button">Capturer cette page</button>
+      <section class="recent-drafts" aria-labelledby="recent-drafts-title">
+        <div class="section-heading">
+          <h2 id="recent-drafts-title">Fiches recentes</h2>
+          <span id="draft-count"></span>
+        </div>
+        <p id="no-drafts">Aucune fiche sauvegardee.</p>
+        <ul id="draft-list"></ul>
+      </section>
+      <p id="status-message" class="status-message" role="status" aria-live="polite"></p>
+    </main>
+    <script type="module" src="../src/popup/popup.js"></script>
+  </body>
+</html>

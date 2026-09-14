@@ -1,0 +1,14 @@
+name: reviewflow
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    image: reviewflow-api:local
+    init: true
+    ports:
+      - '3000:3000'
+    environment:
+      NODE_ENV: production
+      PORT: 3000

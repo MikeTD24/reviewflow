@@ -9,7 +9,12 @@
   ],
   "scripts": {
     "build": "npm run build --workspaces --if-present",
+    "demo": "node scripts/serve-demo.mjs",
     "test": "npm run test --workspaces --if-present",
+    "typecheck:e2e": "tsc --project tsconfig.e2e.json --noEmit",
+    "test:e2e": "npm run build && npm run typecheck:e2e && playwright test",
+    "test:e2e:headed": "npm run build && npm run typecheck:e2e && playwright test --headed",
+    "test:all": "npm test && npm run test:e2e",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
@@ -19,6 +24,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.0",
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^26.5.1",
     "eslint": "^10.0.0",
     "prettier": "^3.0.0",
     "typescript": "^6.0.0",

@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "tsc --project tsconfig.json",
-    "test": "vitest run --passWithNoTests"
+    "clean": "node scripts/clean.mjs",
+    "build": "npm run clean && tsc --project tsconfig.json && node scripts/copy-static.mjs",
+    "test": "vitest run tests --passWithNoTests"
   }
 }

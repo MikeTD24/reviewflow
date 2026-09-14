@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "ReviewFlow",
+  "version": "0.1.0",
+  "description": "Capture et structure des recherches produit depuis la page active.",
+  "permissions": ["activeTab", "scripting", "storage"],
+  "action": {
+    "default_title": "Ouvrir ReviewFlow",
+    "default_popup": "popup/popup.html"
+  },
+  "host_permissions": ["http://localhost:3000/*"]
+}

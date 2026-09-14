@@ -5,6 +5,17 @@
   "type": "module",
   "scripts": {
     "build": "tsc --project tsconfig.json",
-    "test": "vitest run --passWithNoTests"
+    "test": "vitest run tests --passWithNoTests",
+    "start": "node dist/src/index.js",
+    "dev": "node --watch dist/src/index.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "zod": "^4.5.4"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/supertest": "^7.2.1",
+    "supertest": "^7.2.2"
   }
 }

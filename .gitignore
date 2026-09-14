@@ -1,6 +1,8 @@
 node_modules/
 dist/
 coverage/
+playwright-report/
+test-results/
 .env
 .env.*
 !.env.example
@@ -9,3 +11,6 @@ coverage/
 Thumbs.db
 .idea/
 .vscode/
+
+# Notes de candidature privees : elles ne font pas partie du portfolio public.
+reviewflow_analysis.md
