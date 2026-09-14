@@ -21,15 +21,15 @@ Une recherche produit oblige souvent à recopier les mêmes informations entre l
 
 ```mermaid
 flowchart LR
-    PAGE[Page produit] -->|activeTab + scripting| EXT[Extension Manifest V3]
-    EXT --> EXTRACT[Extraction et normalisation]
-    EXTRACT --> FORM[Formulaire éditorial]
-    FORM <--> STORAGE[(chrome.storage.local)]
-    FORM -->|POST /api/reviews/structure| API[API Express]
-    API --> VALIDATION[Validation Zod]
-    VALIDATION --> DEMO[Structuration démo]
+    PAGE["Page produit"] -->|"activeTab + scripting"| EXT["Extension Manifest V3"]
+    EXT --> EXTRACT["Extraction et normalisation"]
+    EXTRACT --> FORM["Formulaire éditorial"]
+    FORM <--> STORAGE[("chrome.storage.local")]
+    FORM -->|"POST /api/reviews/structure"| API["API Express"]
+    API --> VALIDATION["Validation Zod"]
+    VALIDATION --> DEMO["Structuration démo"]
     DEMO --> FORM
-    STORAGE --> EXPORT[Exports JSON / Markdown / CSV]
+    STORAGE --> EXPORT["Exports JSON / Markdown / CSV"]
 ```
 
 L'extension ne transmet une fiche à l'API que lorsque l'utilisateur demande sa structuration. Elle utilise d'abord l'API locale pour le développement, puis l'API Render si le serveur local est indisponible. Les brouillons restent dans le stockage local du navigateur et aucune base de données ni aucun compte utilisateur n'est utilisé.
